@@ -1,791 +1,505 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Galería — PRISMA Festival</title>
-    <link rel="stylesheet" href="/Styles/Style-galeria.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería — PRISMA Festival</title>
+  <link rel="stylesheet" href="/Styles/Style.css" />
+  <link rel="stylesheet" href="/Styles/Style-galeria.css" />
+</head>
+<body>
 
-    <!-- =====================================================
-       ESTILOS ESPECÍFICOS DE ESTA PÁGINA
-       Copia este bloque en un nuevo <style> para cada
-       página y personaliza solo lo que necesites.
-  ====================================================== -->
-    <style>
-      /* ── PÁGINA HERO ──────────────────────────────────── */
-      .page-banner {
-        min-height: 46vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 9rem 3rem 4rem;
-        position: relative;
-        overflow: hidden;
-      }
+  <!-- Loader -->
+  <div class="page-loader">
+    <span class="loader-text">PRISMA ✦</span>
+  </div>
 
-      /* Grid de fondo igual al hero */
-      .page-banner::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(188, 210, 84, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(188, 210, 84, 0.04) 1px, transparent 1px);
-        background-size: 60px 60px;
-      }
+  <!-- Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-ring"></div>
 
-      /* Palabra fantasma decorativa — cámbiala por cada página */
-      .page-banner::after {
-        content: "GALERÍA"; /* ← cambia esto en cada página */
-        position: absolute;
-        right: 3rem;
-        bottom: -1rem;
-        font-family: "Permanent Marker", cursive;
-        font-size: clamp(5rem, 14vw, 12rem);
-        color: rgba(188, 210, 84, 0.05);
-        line-height: 1;
-        pointer-events: none;
-        white-space: nowrap;
-      }
+  <!-- ═══════════════════════════════════
+       NAVBAR — no tocar
+  ═══════════════════════════════════ -->
+  <header class="site-header">
+    <a href="/index.html" class="logo">
+      PRISMA
+      <span>Festival de Arte Digital</span>
+    </a>
+    <button class="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav">
+      <div class="nav-item">
+        <a href="#" class="nav-link" aria-haspopup="true">
+          Objetivos
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="mision.html">Misión</a>
+          <a href="vision.html">Visión</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="galeria.html" class="nav-link active">Galería</a>
+      </div>
+      <div class="nav-item">
+        <a href="promo.html" class="nav-link">Promo</a>
+      </div>
+    </nav>
+  </header>
 
-      .page-banner-inner {
-        position: relative;
-        z-index: 1;
-      }
-
-      .page-banner-tag {
-        display: inline-block;
-        font-family: "Caveat", cursive;
-        font-size: 1rem;
-        color: var(--accent);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 0.8rem;
-        padding: 0.25rem 0.8rem;
-        border: 1px solid rgba(188, 210, 84, 0.35);
-        border-radius: 2px;
-      }
-
-      .page-banner-title {
-        font-family: "Permanent Marker", cursive;
-        font-size: clamp(3.2rem, 8vw, 7rem);
-        line-height: 0.95;
-        color: var(--white);
-      }
-      .page-banner-title em {
-        font-style: normal;
-        color: var(--accent);
-      }
-
-      .page-banner-desc {
-        font-family: "Caveat", cursive;
-        font-size: 1.2rem;
-        color: rgba(255, 255, 255, 0.55);
-        margin-top: 1rem;
-        max-width: 520px;
-      }
-
-      /* Línea divisora animada */
-      .divider-line {
-        height: 1px;
-        background: linear-gradient(to right, var(--accent), transparent);
-        margin: 0 3rem;
-        opacity: 0.3;
-      }
-
-      /* ── FILTROS / TABS ───────────────────────────────── */
-      .filter-bar {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        padding: 2rem 3rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .filter-btn {
-        padding: 0.5rem 1.2rem;
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 999px;
-        color: rgba(255, 255, 255, 0.5);
-        font-family: "Barlow Condensed", sans-serif;
-        font-size: 0.85rem;
-        font-weight: 600;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        transition: all 0.25s ease;
-      }
-      .filter-btn:hover {
-        border-color: rgba(188, 210, 84, 0.4);
-        color: var(--accent);
-      }
-      .filter-btn.active {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: var(--bg);
-      }
-
-      /* ── GALERÍA MASONRY ──────────────────────────────── */
-      .gallery-main {
-        padding: 1rem 3rem 6rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .gallery-masonry {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 220px;
-        gap: 1rem;
-      }
-
-      /* Tamaños variados para efecto masonry */
-      .gitem {
-        grid-row: span 1;
-      }
-      .gitem.tall {
-        grid-row: span 2;
-      }
-      .gitem.wide {
-        grid-column: span 2;
-      }
-
-      .gallery-item {
-        background: var(--gray);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 4px;
-        overflow: hidden;
-        position: relative;
-        transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .gallery-item:hover {
-        border-color: rgba(188, 210, 84, 0.35);
-        transform: scale(1.02);
-        z-index: 2;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      }
-
-      /* Overlay de info al hover */
-      .gallery-item-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(16, 16, 16, 0.95) 0%,
-          transparent 55%
-        );
-        opacity: 0;
-        transition: opacity 0.35s ease;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 1.5rem;
-      }
-      .gallery-item:hover .gallery-item-overlay {
-        opacity: 1;
-      }
-
-      .gitem-title {
-        font-family: "Barlow Condensed", sans-serif;
-        font-size: 1rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--white);
-        margin-bottom: 0.3rem;
-      }
-      .gitem-meta {
-        font-family: "Caveat", cursive;
-        font-size: 0.85rem;
-        color: var(--accent);
-      }
-
-      .gitem-cat {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        padding: 0.2rem 0.6rem;
-        background: var(--accent);
-        color: var(--bg);
-        font-family: "Caveat", cursive;
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-        border-radius: 2px;
-        font-weight: 700;
-      }
-
-      /* Placeholder visual (reemplaza con <img> reales) */
-      .gitem-placeholder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.7rem;
-        width: 100%;
-        height: 100%;
-        font-family: "Caveat", cursive;
-        font-size: 0.95rem;
-        color: rgba(255, 255, 255, 0.15);
-        letter-spacing: 1px;
-        text-align: center;
-        padding: 1rem;
-        /* ↓ Elimina esto cuando pongas imágenes reales */
-        background: linear-gradient(
-          135deg,
-          var(--gray) 0%,
-          var(--gray-mid) 100%
-        );
-      }
-      .gitem-placeholder span {
-        font-size: 2rem;
-      }
-
-      /* ── LIGHTBOX ─────────────────────────────────────── */
-      .lightbox {
-        position: fixed;
-        inset: 0;
-        background: rgba(16, 16, 16, 0.97);
-        backdrop-filter: blur(20px);
-        z-index: 500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.35s ease;
-      }
-      .lightbox.open {
-        opacity: 1;
-        visibility: visible;
-      }
-      .lightbox-content {
-        max-width: 80vw;
-        max-height: 80vh;
-        position: relative;
-        text-align: center;
-      }
-      .lightbox-img {
-        max-width: 100%;
-        max-height: 70vh;
-        border-radius: 4px;
-        border: 1px solid rgba(188, 210, 84, 0.2);
-      }
-      .lightbox-placeholder {
-        width: 700px;
-        height: 500px;
-        max-width: 80vw;
-        background: var(--gray);
-        border: 1px solid rgba(188, 210, 84, 0.2);
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        font-family: "Caveat", cursive;
-        color: rgba(255, 255, 255, 0.3);
-        font-size: 1.2rem;
-      }
-      .lightbox-info {
-        margin-top: 1.2rem;
-      }
-      .lightbox-title {
-        font-family: "Permanent Marker", cursive;
-        font-size: 1.4rem;
-        color: var(--white);
-      }
-      .lightbox-meta {
-        font-family: "Caveat", cursive;
-        font-size: 1rem;
-        color: var(--accent);
-        margin-top: 0.3rem;
-      }
-      .lightbox-close {
-        position: absolute;
-        top: -50px;
-        right: 0;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: var(--white);
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.25s ease;
-      }
-      .lightbox-close:hover {
-        background: var(--accent);
-        color: var(--bg);
-        border-color: var(--accent);
-      }
-
-      /* ── RESPONSIVE ─────────────────────────────────── */
-      @media (max-width: 1024px) {
-        .gallery-masonry {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .gitem.wide {
-          grid-column: span 2;
-        }
-      }
-      @media (max-width: 768px) {
-        .page-banner {
-          padding: 8rem 1.5rem 3rem;
-        }
-        .filter-bar {
-          padding: 1.5rem;
-        }
-        .gallery-main {
-          padding: 1rem 1.5rem 4rem;
-        }
-        .gallery-masonry {
-          grid-template-columns: 1fr;
-          grid-auto-rows: 200px;
-        }
-        .gitem.tall,
-        .gitem.wide {
-          grid-column: span 1;
-          grid-row: span 1;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Loader -->
-    <div class="page-loader">
-      <span class="loader-text">PRISMA ✦</span>
+  <!-- ═══════════════════════════════════
+       BANNER
+  ═══════════════════════════════════ -->
+  <div class="page-banner">
+    <div class="page-banner-inner">
+      <span class="page-banner-tag">✦ Arte Digital</span>
+      <h1 class="page-banner-title">Galería de<br><em>Momentos</em></h1>
+      <p class="page-banner-desc">
+        Capturas de ediciones anteriores — concept art, workshops, showcases y más.
+      </p>
     </div>
+  </div>
 
-    <!-- Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-ring"></div>
+  <div class="divider-line"></div>
 
-    <!-- ═══════════════════════════════════════════════════
-       NAVBAR — Igual en todas las páginas, no tocar
-  ═══════════════════════════════════════════════════ -->
-    <header class="site-header">
-      <a href="/index.html" class="logo">
-        PRISMA
-        <span>Festival de Arte Digital</span>
-      </a>
+  <!-- ═══════════════════════════════════════════════════════
+       GALERÍA MASONRY
+       ───────────────────────────────────────────────────────
+       CÓMO AGREGAR TUS IMÁGENES:
 
-      <button class="hamburger" aria-label="Menú">
-        <span></span><span></span><span></span>
+       1. Crea una carpeta  /fotos/  dentro del proyecto.
+       2. Pon ahí tus imágenes: apertura.jpg, concept.jpg, etc.
+       3. En cada <img> cambia el src:
+              src="fotos/nombre-de-tu-foto.jpg"
+       4. Cambia el alt por una descripción real de la foto.
+
+       TAMAÑOS DE CELDA:
+         .gitem        → cuadrado normal (1 columna × 1 fila)
+         .gitem.tall   → alto            (1 columna × 2 filas)
+         .gitem.wide   → ancho           (2 columnas × 1 fila)
+
+       AGREGAR MÁS FOTOS:
+         Copia cualquier bloque <div class="gallery-item …">
+         y pégalo al final, antes del comentario "AGREGA MÁS".
+  ═══════════════════════════════════════════════════════ -->
+  <main class="gallery-main">
+    <div class="gallery-masonry">
+
+      <!-- ─── 01 | TALL — Concept Art ──────────────────────── -->
+      <div class="gallery-item gitem tall"
+           data-category="concept"
+           data-title="Character Design Battle"
+           data-meta="Concept Art · 2024">
+
+        <span class="gitem-cat">Equipo</span>
+
+        <!--
+          ↓ CAMBIA src POR LA RUTA DE TU FOTO
+            Ejemplo: src="fotos/concept-battle.jpg"
+        -->
+        <img
+          src="/Images/team.png"
+          alt="Artistas compitiendo en el Character Design Battle — PRISMA 2024"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Conoce al equipo!</div>
+          <div class="gitem-meta">Equipo 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 02 | Normal — Evento ──────────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="evento"
+           data-title="Apertura Oficial"
+           data-meta="Evento · 2024">
+
+        <span class="gitem-cat">Proyeccion</span>
+
+        <img
+          src="/Images/promo-1.png"
+          alt="Ceremonia de apertura oficial PRISMA 2024"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Astral Love</div>
+          <div class="gitem-meta">Evento · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 03 | Normal — Game Dev ───────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="games"
+           data-title="Demo en Vivo — Unreal Engine"
+           data-meta="Game Dev · 2024">
+
+        <span class="gitem-cat">Proyeccion</span>
+
+        <img
+          src="/Images/merch.png"
+          alt="Demostración en vivo de desarrollo en Unreal Engine"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Clink</div>
+          <div class="gitem-meta">Evento · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 04 | WIDE — Animación ────────────────────────── -->
+      <div class="gallery-item gitem wide"
+           data-category="animacion"
+           data-title="Showcase de Animación 3D"
+           data-meta="Animación · 2024">
+
+        <span class="gitem-cat">Bazaar</span>
+
+        <img
+          src="/Images/Mercancia.png"
+          alt="Proyección del Showcase de Animación 3D en el auditorio principal"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Actividad externo</div>
+          <div class="gitem-meta">Actividades · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 05 | Normal — Workshop ───────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="workshop"
+           data-title="Workshop Blender"
+           data-meta="Workshop · 2024">
+
+        <span class="gitem-cat">Patrocinio</span>
+
+        <img
+          src="/Images/patrocinadores.png"
+          alt="Participantes en el workshop intensivo de Blender"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">MB Chicken</div>
+          <div class="gitem-meta">Patrocinador · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 06 | Normal — Concept Art ────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="concept"
+           data-title="Environment Painting"
+           data-meta="Concept Art · 2023">
+
+        <span class="gitem-cat">Patrocinio</span>
+
+        <img
+          src="/Images/patrocinadores-1.png"
+          alt="Obra ganadora de environment painting PRISMA 2023"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Nuestros patrocinadores</div>
+          <div class="gitem-meta">Patrocinador · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 07 | TALL — Evento ───────────────────────────── -->
+      <div class="gallery-item gitem tall"
+           data-category="evento"
+           data-title="Premiación — Mejor Proyecto"
+           data-meta="Evento · 2024">
+
+        <span class="gitem-cat">Comando</span>
+
+        <img
+          src="/Images/Comando.png"
+          alt="Ceremonia de premiación al Mejor Proyecto Digital"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Conoce a Comando!</div>
+          <div class="gitem-meta">PRISMA · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 08 | Normal — Workshop ───────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="workshop"
+           data-title="Workshop Procreate"
+           data-meta="Workshop · 2023">
+
+        <span class="gitem-cat">Corto</span>
+
+        <img
+          src="/Images/cortos-1.png"
+          alt="Sesión práctica del workshop de Procreate"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Cortometraje "No pasa nada"</div>
+          <div class="gitem-meta">PRISMA · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── 09 | Normal — Game Dev ───────────────────────── -->
+      <div class="gallery-item gitem"
+           data-category="games"
+           data-title="Indie Game Showcase"
+           data-meta="Game Dev · 2023">
+
+        <span class="gitem-cat">Corto</span>
+
+        <img
+          src="/Images/cortos-2.png"
+          alt="Exposición de videojuegos independientes — Indie Game Showcase"
+        />
+
+        <div class="gallery-item-overlay">
+          <div class="gitem-title">Cortometraje "Piso 5"</div>
+          <div class="gitem-meta">PRISMA · 2026</div>
+        </div>
+      </div>
+
+      <!-- ─── AGREGA MÁS FOTOS AQUÍ ─────────────────────────
+        Ejemplo de item nuevo:
+
+        <div class="gallery-item gitem"
+             data-category="concept"
+             data-title="Título de la foto"
+             data-meta="Categoría · Año">
+          <span class="gitem-cat">Etiqueta</span>
+          <img src="fotos/mi-foto.jpg" alt="Descripción" />
+          <div class="gallery-item-overlay">
+            <div class="gitem-title">Título de la foto</div>
+            <div class="gitem-meta">Categoría · Año</div>
+          </div>
+        </div>
+      ─────────────────────────────────────────────────────── -->
+
+    </div><!-- /gallery-masonry -->
+  </main>
+
+
+  <!-- ═══════════════════════════════════
+       LIGHTBOX
+  ═══════════════════════════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+    <div class="lightbox-content">
+
+      <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+
+      <!-- La imagen se llena dinámicamente con JS -->
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+
+      <div class="lightbox-info">
+        <div class="lightbox-title" id="lightboxTitle"></div>
+        <div class="lightbox-meta"  id="lightboxMeta"></div>
+      </div>
+
+      <!-- Flechas anterior / siguiente -->
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Anterior">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Siguiente">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
 
-      <nav class="site-nav">
-        <div class="nav-item">
-          <a href="#" class="nav-link" aria-haspopup="true">
-            Objetivos
-            <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-              <path
-                d="M1 1L5 5L9 1"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </a>
-          <div class="dropdown-menu">
-            <a href="mision.html">Misión</a>
-            <a href="vision.html">Visión</a>
-          </div>
-        </div>
-        <div class="nav-item">
-          <a href="galeria.html" class="nav-link active">Galería</a>
-        </div>
-        <div class="nav-item">
-          <a href="promo.html" class="nav-link">Promo</a>
-        </div>
-      </nav>
-    </header>
-    <!-- FIN NAVBAR ─────────────────────────────────────── -->
+    </div>
+  </div>
 
-    <!-- ═══════════════════════════════════════════════════
-       CONTENIDO DE ESTA PÁGINA
-       Todo lo de aquí abajo es lo que cambia por página
-  ═══════════════════════════════════════════════════ -->
 
-    <!-- Banner de página -->
-    <div class="page-banner">
-      <div class="page-banner-inner">
-        <span class="page-banner-tag">✦ Arte Digital</span>
-        <h1 class="page-banner-title">Galería de<br /><em>Momentos</em></h1>
-        <p class="page-banner-desc">
-          Capturas de ediciones anteriores — concept art, workshops, showcases y
-          más.
-        </p>
+  <!-- ═══════════════════════════════════
+       FOOTER — no tocar
+  ═══════════════════════════════════ -->
+  <footer class="site-footer" id="contacto">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          PRISMA
+          <span>Festival de Arte Digital</span>
+        </div>
+        <p>El espacio donde el arte, la tecnología y la creatividad convergen para dar forma al futuro del arte digital en Latinoamérica.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navegación</div>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="mision.html">Misión</a></li>
+          <li><a href="vision.html">Visión</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="promo.html">Promo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Evento</div>
+        <ul>
+          <li><a href="index.html#agenda">Agenda</a></li>
+          <li><a href="index.html#organizadores">Organizadores</a></li>
+          <li><a href="index.html#destacados">Actividades</a></li>
+          <li><a href="index.html#universidad">Sede</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contacto</div>
+        <ul>
+          <li><a href="mailto:hola@PRISMA.mx">hola@PRISMA.mx</a></li>
+          <li><a href="tel:+529991234567">+52 999 123 4567</a></li>
+          <li><a href="#">Av. Digital 404, Campus IADTC</a></li>
+        </ul>
       </div>
     </div>
 
-    <div class="divider-line"></div>
-
-    <!-- Filtros -->
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">Todos</button>
-      <button class="filter-btn" data-filter="concept">Concept Art</button>
-      <button class="filter-btn" data-filter="animacion">Animación</button>
-      <button class="filter-btn" data-filter="workshop">Workshops</button>
-      <button class="filter-btn" data-filter="evento">Evento</button>
-      <button class="filter-btn" data-filter="games">Game Dev</button>
-    </div>
-
-    <!-- Grid Masonry -->
-    <main class="gallery-main">
-      <div class="gallery-masonry">
-        <!-- Ítem 1 — TALL -->
-        <div
-          class="gallery-item gitem tall"
-          data-category="concept"
-          data-title="Character Design Battle"
-          data-meta="Concept Art · Edición 2024"
-        >
-          <div class="gitem-cat">Concept Art</div>
-          <div class="gitem-placeholder">
-            <span>🎨</span>
-            Imagen de obra<br />concept art aquí
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Character Design Battle</div>
-            <div class="gitem-meta">Concept Art · Edición 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 2 -->
-        <div
-          class="gallery-item gitem"
-          data-category="evento"
-          data-title="Apertura Oficial"
-          data-meta="Evento · 2024"
-        >
-          <div class="gitem-cat">Evento</div>
-          <div class="gitem-placeholder">
-            <span>📸</span>
-            Foto apertura
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Apertura Oficial</div>
-            <div class="gitem-meta">Evento · 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 3 -->
-        <div
-          class="gallery-item gitem"
-          data-category="games"
-          data-title="Demo en Vivo — Unreal Engine"
-          data-meta="Game Dev · 2024"
-        >
-          <div class="gitem-cat">Game Dev</div>
-          <div class="gitem-placeholder">
-            <span>🕹️</span>
-            Demo en vivo
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Demo en Vivo — Unreal Engine</div>
-            <div class="gitem-meta">Game Dev · 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 4 — WIDE -->
-        <div
-          class="gallery-item gitem wide"
-          data-category="animacion"
-          data-title="Showcase de Animación 3D"
-          data-meta="Animación · 2024"
-        >
-          <div class="gitem-cat">Animación</div>
-          <div class="gitem-placeholder">
-            <span>🎬</span>
-            Showcase de Animación 3D — render final del equipo ganador
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Showcase de Animación 3D</div>
-            <div class="gitem-meta">Animación · 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 5 -->
-        <div
-          class="gallery-item gitem"
-          data-category="workshop"
-          data-title="Workshop Blender"
-          data-meta="Workshop · 2024"
-        >
-          <div class="gitem-cat">Workshop</div>
-          <div class="gitem-placeholder">
-            <span>🛠️</span>
-            Workshop Blender
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Workshop Blender</div>
-            <div class="gitem-meta">Workshop · 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 6 -->
-        <div
-          class="gallery-item gitem"
-          data-category="concept"
-          data-title="Environment Painting"
-          data-meta="Concept Art · 2023"
-        >
-          <div class="gitem-cat">Concept Art</div>
-          <div class="gitem-placeholder">
-            <span>🌆</span>
-            Environment art
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Environment Painting</div>
-            <div class="gitem-meta">Concept Art · 2023</div>
-          </div>
-        </div>
-
-        <!-- Ítem 7 — TALL -->
-        <div
-          class="gallery-item gitem tall"
-          data-category="evento"
-          data-title="Premiación — Mejor Proyecto"
-          data-meta="Evento · 2024"
-        >
-          <div class="gitem-cat">Evento</div>
-          <div class="gitem-placeholder">
-            <span>🏆</span>
-            Premiación<br />Mejor Proyecto
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Premiación — Mejor Proyecto</div>
-            <div class="gitem-meta">Evento · 2024</div>
-          </div>
-        </div>
-
-        <!-- Ítem 8 -->
-        <div
-          class="gallery-item gitem"
-          data-category="workshop"
-          data-title="Workshop Procreate"
-          data-meta="Workshop · 2023"
-        >
-          <div class="gitem-cat">Workshop</div>
-          <div class="gitem-placeholder">
-            <span>✏️</span>
-            Procreate session
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Workshop Procreate</div>
-            <div class="gitem-meta">Workshop · 2023</div>
-          </div>
-        </div>
-
-        <!-- Ítem 9 -->
-        <div
-          class="gallery-item gitem"
-          data-category="games"
-          data-title="Indie Game Showcase"
-          data-meta="Game Dev · 2023"
-        >
-          <div class="gitem-cat">Game Dev</div>
-          <div class="gitem-placeholder">
-            <span>👾</span>
-            Indie Games expo
-          </div>
-          <div class="gallery-item-overlay">
-            <div class="gitem-title">Indie Game Showcase</div>
-            <div class="gitem-meta">Game Dev · 2023</div>
-          </div>
-        </div>
+    <div class="contact-section">
+      <div class="contact-left">
+        <div class="section-label">Contáctanos</div>
+        <h2 class="section-title">¿Tienes<br>preguntas?</h2>
+        <p>Escríbenos para información sobre registro, ponencias, talleres o patrocinios. Respondemos en menos de 48 horas.</p>
       </div>
-    </main>
-
-    <!-- ═══════════════════════════════════════════════════
-       LIGHTBOX
-  ═══════════════════════════════════════════════════ -->
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-      <div class="lightbox-content">
-        <button class="lightbox-close" id="lightboxClose">✕</button>
-        <div class="lightbox-placeholder" id="lightboxImg">
-          <span style="font-size: 3rem">🖼️</span>
-          <span>Imagen Ampliada</span>
-          <span style="font-size: 0.85rem; opacity: 0.5"
-            >Reemplaza con tu &lt;img&gt; real</span
-          >
-        </div>
-        <div class="lightbox-info">
-          <div class="lightbox-title" id="lightboxTitle">—</div>
-          <div class="lightbox-meta" id="lightboxMeta">—</div>
-        </div>
+      <div class="contact-right">
+        <form class="contact-form">
+          <input type="text"  name="nombre"  placeholder="Tu nombre completo" required />
+          <input type="email" name="email"   placeholder="tu@correo.com"      required />
+          <input type="text"  name="asunto"  placeholder="Asunto" />
+          <textarea name="mensaje" placeholder="Tu mensaje aquí…" required></textarea>
+          <button type="submit" class="btn-submit">Enviar Mensaje ✦</button>
+        </form>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════
-       FOOTER — Igual en todas las páginas, no tocar
-  ═══════════════════════════════════════════════════ -->
-    <footer class="site-footer" id="contacto">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo">
-            PRISMA
-            <span>Festival de Arte Digital</span>
-          </div>
-          <p>
-            El espacio donde el arte, la tecnología y la creatividad convergen
-            para dar forma al futuro del arte digital en Latinoamérica.
-          </p>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Navegación</div>
-          <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="mision.html">Misión</a></li>
-            <li><a href="vision.html">Visión</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="promo.html">Promo</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Evento</div>
-          <ul>
-            <li><a href="index.html#agenda">Agenda</a></li>
-            <li><a href="index.html#organizadores">Organizadores</a></li>
-            <li><a href="index.html#destacados">Actividades</a></li>
-            <li><a href="index.html#universidad">Sede</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Contacto</div>
-          <ul>
-            <li>
-              <a href="mailto:hola@PRISMA.mx">hola@PRISMA.mx</a>
-            </li>
-            <li><a href="tel:+529991234567">+52 999 123 4567</a></li>
-            <li><a href="#">Av. Digital 404, Campus IADTC</a></li>
-          </ul>
-        </div>
+    <div class="footer-bottom">
+      <p>© 2025 PRISMA Festival — IADTC. Todos los derechos reservados.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">Ig</a>
+        <a href="#" title="Facebook">Fb</a>
+        <a href="#" title="TikTok">Tk</a>
+        <a href="#" title="YouTube">Yt</a>
+        <a href="#" title="Behance">Be</a>
       </div>
+    </div>
+  </footer>
 
-      <div class="contact-section">
-        <div class="contact-left">
-          <div class="section-label">Contáctanos</div>
-          <h2 class="section-title">¿Tienes<br />preguntas?</h2>
-          <p>
-            Escríbenos para información sobre registro, ponencias, talleres o
-            patrocinios. Respondemos en menos de 48 horas.
-          </p>
-        </div>
-        <div class="contact-right">
-          <form class="contact-form">
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Tu nombre completo"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="tu@correo.com"
-              required
-            />
-            <input type="text" name="asunto" placeholder="Asunto" />
-            <textarea
-              name="mensaje"
-              placeholder="Tu mensaje aquí…"
-              required
-            ></textarea>
-            <button type="submit" class="btn-submit">Enviar Mensaje ✦</button>
-          </form>
-        </div>
-      </div>
+  <script src="/main.js"></script>
 
-      <div class="footer-bottom">
-        <p>
-          © 2026 Feria Internacional PRISMA --- Universidad Anáhuac Mayab. Todos
-          los derechos reservados..
-        </p>
-        <div class="footer-social">
-          <a href="https://www.instagram.com/prisma.am/" title="Instagram"
-            >Ig</a
-          >
-          <a href="#" title="Facebook">Fb</a>
-          <a href="#" title="TikTok">Tk</a>
-          <a href="#" title="YouTube">Yt</a>
-          <a href="#" title="Behance">Be</a>
-        </div>
-      </div>
-    </footer>
-    <!-- FIN FOOTER ──────────────────────────────────── -->
+  <!-- JS específico — Galería -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    <!-- ═══════════════════════════════════════════════════
-       JS GLOBAL (no tocar)
-  ═══════════════════════════════════════════════════ -->
-    <script src="/main.js"></script>
+      /* ── FILTROS ──────────────────────────────────────────── */
+      const filterBtns   = document.querySelectorAll('.filter-btn');
+      const galleryItems = document.querySelectorAll('.gallery-item');
 
-    <!-- ═══════════════════════════════════════════════════
-       JS ESPECÍFICO DE ESTA PÁGINA
-       Copia solo este bloque <script> en cada página
-       y adapta la lógica que necesites.
-  ═══════════════════════════════════════════════════ -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        /* ── FILTROS ────────────────────────────────────── */
-        const filterBtns = document.querySelectorAll(".filter-btn");
-        const galleryItems = document.querySelectorAll(".gallery-item");
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
 
-        filterBtns.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            filterBtns.forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
+          const filter = btn.dataset.filter;
 
-            const filter = btn.dataset.filter;
-
-            galleryItems.forEach((item) => {
-              const match =
-                filter === "all" || item.dataset.category === filter;
-              item.style.transition =
-                "opacity 0.35s ease, transform 0.35s ease";
-              item.style.opacity = match ? "1" : "0.1";
-              item.style.transform = match ? "scale(1)" : "scale(0.95)";
-              item.style.pointerEvents = match ? "auto" : "none";
-            });
+          galleryItems.forEach(item => {
+            const match = filter === 'all' || item.dataset.category === filter;
+            item.style.transition    = 'opacity 0.35s ease, transform 0.35s ease';
+            item.style.opacity       = match ? '1'    : '0.08';
+            item.style.transform     = match ? 'scale(1)' : 'scale(0.96)';
+            item.style.pointerEvents = match ? 'auto' : 'none';
           });
-        });
-
-        /* ── LIGHTBOX ───────────────────────────────────── */
-        const lightbox = document.getElementById("lightbox");
-        const lightboxClose = document.getElementById("lightboxClose");
-        const lightboxTitle = document.getElementById("lightboxTitle");
-        const lightboxMeta = document.getElementById("lightboxMeta");
-
-        galleryItems.forEach((item) => {
-          item.addEventListener("click", () => {
-            lightboxTitle.textContent = item.dataset.title || "—";
-            lightboxMeta.textContent = item.dataset.meta || "—";
-            lightbox.classList.add("open");
-            document.body.style.overflow = "hidden";
-          });
-        });
-
-        const closeLightbox = () => {
-          lightbox.classList.remove("open");
-          document.body.style.overflow = "";
-        };
-
-        lightboxClose.addEventListener("click", closeLightbox);
-        lightbox.addEventListener("click", (e) => {
-          if (e.target === lightbox) closeLightbox();
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeLightbox();
         });
       });
-    </script>
-  </body>
+
+      /* ── LIGHTBOX ─────────────────────────────────────────── */
+      const lightbox      = document.getElementById('lightbox');
+      const lightboxImg   = document.getElementById('lightboxImg');
+      const lightboxTitle = document.getElementById('lightboxTitle');
+      const lightboxMeta  = document.getElementById('lightboxMeta');
+      const lightboxClose = document.getElementById('lightboxClose');
+      const lightboxPrev  = document.getElementById('lightboxPrev');
+      const lightboxNext  = document.getElementById('lightboxNext');
+
+      let visibleItems = [];
+      let currentIndex = 0;
+
+      const openLightbox = (index) => {
+        // Solo los items actualmente visibles
+        visibleItems = [...galleryItems].filter(
+          item => item.style.pointerEvents !== 'none'
+        );
+        currentIndex = index;
+
+        const item = visibleItems[currentIndex];
+        const img  = item.querySelector('img');
+
+        lightboxImg.src = img ? img.src : '';
+        lightboxImg.alt = img ? img.alt : '';
+
+        lightboxTitle.textContent = item.dataset.title || '';
+        lightboxMeta.textContent  = item.dataset.meta  || '';
+
+        // Flechas: opacidad según posición
+        lightboxPrev.style.opacity       = currentIndex === 0 ? '0.2' : '1';
+        lightboxPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+        lightboxNext.style.opacity       = currentIndex === visibleItems.length - 1 ? '0.2' : '1';
+        lightboxNext.style.pointerEvents = currentIndex === visibleItems.length - 1 ? 'none' : 'auto';
+
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => { lightboxImg.src = ''; }, 350);
+      };
+
+      const goNext = () => {
+        if (currentIndex < visibleItems.length - 1) openLightbox(currentIndex + 1);
+      };
+      const goPrev = () => {
+        if (currentIndex > 0) openLightbox(currentIndex - 1);
+      };
+
+      // Clic en cada item — pasa el índice dentro de visibleItems
+      galleryItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          const visible = [...galleryItems].filter(i => i.style.pointerEvents !== 'none');
+          const idx = visible.indexOf(item);
+          openLightbox(idx >= 0 ? idx : 0);
+        });
+      });
+
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxNext.addEventListener('click',  goNext);
+      lightboxPrev.addEventListener('click',  goPrev);
+
+      lightbox.addEventListener('click', e => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowRight') goNext();
+        if (e.key === 'ArrowLeft')  goPrev();
+      });
+
+      // Swipe táctil en el lightbox
+      let touchStartX = 0;
+      lightbox.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      });
+      lightbox.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) diff > 0 ? goNext() : goPrev();
+      });
+
+    });
+  </script>
+
+</body>
 </html>
