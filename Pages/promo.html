@@ -1,9 +1,340 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Promo</title>
-  </head>
-  <body></body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Promo — PRISMA Festival</title>
+  <link rel="stylesheet" href="/Styles/Style.css" />
+  <link rel="stylesheet" href="/Styles/Style-promo.css" />
+</head>
+<body>
+
+  <!-- Loader -->
+  <div class="page-loader">
+    <span class="loader-text">PRISMA ✦</span>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- ═══════════════════════════════════
+       NAVBAR — no tocar
+  ═══════════════════════════════════ -->
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      PRISMA
+      <span>Festival de Arte Digital</span>
+    </a>
+    <button class="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav">
+      <div class="nav-item">
+        <a href="#" class="nav-link" aria-haspopup="true">
+          Objetivos
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="mision.html">Misión</a>
+          <a href="vision.html">Visión</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="galeria.html" class="nav-link">Galería</a>
+      </div>
+      <div class="nav-item">
+        <a href="promo.html" class="nav-link active">Promo</a>
+      </div>
+    </nav>
+  </header>
+  <!-- FIN NAVBAR ──────────────────── -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO PROMO
+  ═══════════════════════════════════════════════════════ -->
+  <section class="promo-hero">
+
+    <div class="promo-glow"></div>
+
+    <!-- Encabezado -->
+    <div class="promo-top reveal">
+      <div class="promo-tag">
+        <span class="promo-tag-dot"></span>
+        Video Oficial — PRISMA 2026
+      </div>
+      <h1 class="promo-title">
+        Esto es<br><em>PRISMA</em>
+      </h1>
+      <p class="promo-subtitle">Edición 2026 · Campus Anahuac Mayab · Abril 29-30</p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         BLOQUE DEL VIDEO
+         ──────────────────────────────────────────────────────
+         OPCIÓN A — VIDEO LOCAL (archivo en tu computadora)
+         ──────────────────────────────────────────────────────
+         1. Pon tu video en  /video/promo.mp4  (o la ruta que quieras)
+         2. Descomenta el bloque "OPCIÓN A" de abajo
+         3. Comenta o borra el bloque "OPCIÓN B" (YouTube)
+
+         OPCIÓN B — YOUTUBE (embed)
+         ──────────────────────────────────────────────────────
+         1. Abre tu video en YouTube
+         2. Clic en Compartir → Insertar
+         3. Copia solo el ID del link: https://youtu.be/ [ESTE_ID]
+         4. Pégalo en el src del <iframe> donde dice TU_VIDEO_ID
+
+         OPCIÓN C — VIMEO (embed)
+         ──────────────────────────────────────────────────────
+         Mismo proceso que YouTube pero el src es:
+         https://player.vimeo.com/video/TU_VIDEO_ID?autoplay=1
+    ══════════════════════════════════════════════════════ -->
+    <div class="video-outer reveal reveal-delay-1">
+
+      <!-- Esquinas decorativas del marco -->
+      <div class="video-frame-corner tl"></div>
+      <div class="video-frame-corner tr"></div>
+      <div class="video-frame-corner bl"></div>
+      <div class="video-frame-corner br"></div>
+
+      <div class="video-wrapper" id="videoWrapper">
+
+        <!-- ──────────────────────────────────────────────
+             OPCIÓN A — VIDEO LOCAL
+             Descomenta este bloque cuando tengas el archivo
+        ────────────────────────────────────────────────── -->
+
+        <video
+          class="promo-video"
+          id="promoVideo"
+          preload="metadata"
+          playsinline
+        >
+          <source src="/Images/PromoVideo.mp4"  type="video/mp4" />
+          Tu navegador no soporta la etiqueta video.
+        </video>
+
+        <div class="video-overlay" id="videoOverlay">
+          <button class="play-btn" id="playBtn" aria-label="Reproducir video">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 5.5L21 13L8 20.5V5.5Z"/>
+            </svg>
+          </button>
+          <span class="video-overlay-label">Reproducir Video</span>
+        </div>
+
+      </div><!-- /video-wrapper -->
+
+      <!-- Barra de progreso (solo para video local, Opción A) -->
+      <div class="video-progress-bar">
+        <div class="video-progress-fill" id="progressFill"></div>
+      </div>
+
+    </div><!-- /video-outer -->
+
+    <!-- Meta info bajo el video -->
+    <div class="video-meta reveal reveal-delay-2">
+      <div class="video-meta-left">
+        <span class="vmeta-badge">
+          <span class="vmeta-badge-dot"></span>
+          Oficial 2025
+        </span>
+        <span class="vmeta-title">PRISMA — Festival de Arte Digital</span>
+      </div>
+      <div class="video-meta-right">
+        <button class="vmeta-share" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.textContent='¡Copiado!')" aria-label="Copiar enlace">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 2H2C1.44772 2 1 2.44772 1 3V11C1 11.5523 1.44772 12 2 12H10C10.5523 12 11 11.5523 11 11V8M8 1H12M12 1V5M12 1L5.5 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Compartir
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="promo-scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Más info</span>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       STRIP MARQUEE
+  ═══════════════════════════════════ -->
+  <div class="promo-strip">
+    <div class="promo-strip-inner">
+      <span>Arte Digital</span>
+      <span>Animación 2D & 3D</span>
+      <span>Concept Art</span>
+      <span>Game Development</span>
+      <span>Motion Design</span>
+      <span>Ilustración</span>
+      <span>VFX & Efectos</span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════
+       INFO / CRÉDITOS
+  ═══════════════════════════════════ -->
+  <div class="promo-info reveal">
+
+    <div class="info-block">
+      <div class="info-label">Edición</div>
+      <div class="info-value">2026</div>
+      <div class="info-sub">Cuarta edición del festival</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-label">Fecha</div>
+      <div class="info-value">Abr 29–30</div>
+      <div class="info-sub">Campus Anáhuac Mayab · Mérida, Yuc.</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-label">Producción</div>
+      <div class="info-value">Diseño Multimedia</div>
+      <div class="info-sub">Escuela de Diseño</div>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════
+       FOOTER — no tocar
+  ═══════════════════════════════════ -->
+  <footer class="site-footer" id="contacto">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          PRISMA
+          <span>Festival de Arte Digital</span>
+        </div>
+        <p>El espacio donde el arte, la tecnología y la creatividad convergen para dar forma al futuro del arte digital en Latinoamérica.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navegación</div>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="mision.html">Misión</a></li>
+          <li><a href="vision.html">Visión</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="promo.html">Promo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Evento</div>
+        <ul>
+          <li><a href="index.html#agenda">Agenda</a></li>
+          <li><a href="index.html#organizadores">Organizadores</a></li>
+          <li><a href="index.html#destacados">Actividades</a></li>
+          <li><a href="index.html#universidad">Sede</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contacto</div>
+        <ul>
+          <li><a href="mailto:hola@PRISMA.mx">hola@PRISMA.mx</a></li>
+          <li><a href="tel:+529991234567">+52 999 123 4567</a></li>
+          <li><a href="#">Av. Digital 404, Campus IADTC</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-left">
+        <div class="section-label">Contáctanos</div>
+        <h2 class="section-title">¿Tienes<br>preguntas?</h2>
+        <p>Escríbenos para información sobre registro, ponencias, talleres o patrocinios. Respondemos en menos de 48 horas.</p>
+      </div>
+      <div class="contact-right">
+        <form class="contact-form">
+          <input type="text"  name="nombre"  placeholder="Tu nombre completo" required />
+          <input type="email" name="email"   placeholder="tu@correo.com"      required />
+          <input type="text"  name="asunto"  placeholder="Asunto" />
+          <textarea name="mensaje" placeholder="Tu mensaje aquí…" required></textarea>
+          <button type="submit" class="btn-submit">Enviar Mensaje ✦</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 PRISMA Festival — IADTC. Todos los derechos reservados.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">Ig</a>
+        <a href="#" title="Facebook">Fb</a>
+        <a href="#" title="TikTok">Tk</a>
+        <a href="#" title="YouTube">Yt</a>
+        <a href="#" title="Behance">Be</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="/main.js"></script>
+
+  <!-- ═══════════════════════════════════
+       JS — solo para video local (Opción A)
+       Si usas YouTube o Vimeo puedes borrar
+       todo este bloque <script>
+  ═══════════════════════════════════ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const video        = document.getElementById('promoVideo');
+      const overlay      = document.getElementById('videoOverlay');
+      const playBtn      = document.getElementById('playBtn');
+      const progressFill = document.getElementById('progressFill');
+      const iframe       = document.getElementById('promoIframe');
+
+      /* Si hay iframe (YouTube/Vimeo) ocultamos el overlay
+         porque el player nativo ya tiene su propio botón play */
+      if (iframe) {
+        overlay.classList.add('hidden');
+        return; // el resto del JS es solo para <video>
+      }
+
+      if (!video) return;
+
+      /* ── Play / Pause con el overlay ── */
+      const togglePlay = () => {
+        if (video.paused) {
+          video.play();
+          overlay.classList.add('hidden');
+        } else {
+          video.pause();
+          overlay.classList.remove('hidden');
+        }
+      };
+
+      playBtn.addEventListener('click', togglePlay);
+      video.addEventListener('click',  togglePlay);
+
+      /* Muestra overlay si el video termina */
+      video.addEventListener('ended', () => {
+        overlay.classList.remove('hidden');
+        progressFill.style.width = '0%';
+      });
+
+      /* ── Barra de progreso ── */
+      video.addEventListener('timeupdate', () => {
+        if (!video.duration) return;
+        const pct = (video.currentTime / video.duration) * 100;
+        progressFill.style.width = pct + '%';
+      });
+
+      /* ── Marquee strip — duplicar para loop ── */
+      const strip = document.querySelector('.promo-strip-inner');
+      if (strip) strip.innerHTML += strip.innerHTML;
+
+    });
+  </script>
+
+</body>
 </html>
